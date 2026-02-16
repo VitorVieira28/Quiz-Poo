@@ -13,10 +13,10 @@ public class Sistema {
     // Guarda quem está logado no momento (null = ninguém)
     public static Usuario usuarioLogado = null; 
 
-    // --- 1. CADASTRAR USUÁRIO ---
-  public static void cadastrarUsuario() {
-        Scanner teclado = new Scanner(System.in);
-        System.out.println("\n--- NOVO CADASTRO ---");
+    // --- 1. CADASTRAR JOGADOR ---
+    public static void cadastrarJogador() {
+        Scanner teclado = new Scanner(System.in, "UTF-8");
+        System.out.println("\n--- NOVO CADASTRO DE JOGADOR ---");
         
         System.out.print("Login desejado: ");
         String login = teclado.next();
@@ -47,13 +47,51 @@ public class Sistema {
         
         // Auto-login
         usuarioLogado = novo;
-        System.out.println("\n✅ Conta '" + login + "' criada com sucesso!");
+        System.out.println("\nConta '" + login + "' criada com sucesso!");
+        System.out.println("Você já está logado como " + nome);
+    }
+    
+    // --- 2. CADASTRAR Administrador ---
+    public static void cadastrarAdministrador() {
+        Scanner teclado = new Scanner(System.in, "UTF-8");
+        System.out.println("\n--- NOVO CADASTRO DE Administrador ---");
+        
+        System.out.print("Login desejado: ");
+        String login = teclado.next();
+        
+        // --- VALIDAÇÃO DE LOGIN ÚNICO ---
+        // Vamos percorrer a lista para ver se esse login já existe
+        for (Usuario u : listaUsuarios) {
+            if (u.getLogin().equals(login)) {
+                System.out.println("\n❌ ERRO: O login '" + login + "' já está em uso!");
+                System.out.println("Por favor, tente um login diferente.");
+                return; // Encerra o método aqui mesmo, sem criar a conta
+            }
+        }
+        
+        // Se o código chegou aqui, significa que o login é novo!
+        // Limpar o buffer do teclado antes de ler o nome (que pode ter espaços)
+        teclado.nextLine(); 
+        
+        System.out.print("Nome completo: ");
+        String nome = teclado.nextLine();
+        
+        System.out.print("Senha: ");
+        String senha = teclado.next();
+        
+        // Cria o jogador e salva na lista
+        Administrador novo = new Administrador(nome, login, senha);
+        listaUsuarios.add(novo);
+        
+        // Auto-login
+        usuarioLogado = novo;
+        System.out.println("\nConta '" + login + "' criada com sucesso!");
         System.out.println("Você já está logado como " + nome);
     }
   
     // --- 2. FAZER LOGIN ---
     public static void fazerLogin() {
-        Scanner teclado = new Scanner(System.in);
+        Scanner teclado = new Scanner(System.in, "UTF-8");
         System.out.println("\n--- LOGIN ---");
         
         System.out.print("Login: ");
@@ -89,18 +127,15 @@ public class Sistema {
     // --- MÉTODOS DE JOGO (Deixei o esqueleto pra preenchermos depois) ---
     
     public static void criarJogo() {
-        // 1. SEGURANÇA: Só cria sala se estiver logado
-        if (usuarioLogado == null) {
-            System.out.println("\n❌ ERRO: Você precisa estar logado para criar uma sala!");
-            return;
-        }
 
-        Scanner teclado = new Scanner(System.in);
+        Scanner teclado = new Scanner(System.in, "UTF-8");
         System.out.println("\n--- CRIAR NOVA SALA ---");
         
-        System.out.print("Defina um CÓDIGO para a sala (ex: 1234): ");
+        // Pede para o administrador criar um código para a sala
+        System.out.print("Defina um CÓDIGO para a sala de 6 digítos (ex: 123456): ");
         String codigo = teclado.next();
         
+        // Define a pontuação das perguntas
         System.out.print("Quantos PONTOS vale cada pergunta? (ex: 10): ");
         int valor = teclado.nextInt();
         
@@ -115,13 +150,8 @@ public class Sistema {
     }
     
     public static void entrarEmJogo() {
-        // 1. SEGURANÇA: Só joga quem tem login
-        if (usuarioLogado == null) {
-            System.out.println("\n❌ ERRO: Você precisa fazer LOGIN primeiro para jogar!");
-            return;
-        }
 
-        Scanner teclado = new Scanner(System.in);
+        Scanner teclado = new Scanner(System.in, "UTF-8");
         System.out.println("\n--- ENTRAR EM UM JOGO ---");
         
         // 2. Pede o código da sala

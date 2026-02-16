@@ -37,7 +37,7 @@ public class Jogo {
     
     // O MOTOR DO JOGO: O loop que mostra perguntas e corrige
     public void iniciar() {
-        Scanner teclado = new Scanner(System.in);
+        Scanner teclado = new Scanner(System.in, "UTF-8");
         this.pontuacao = 0; // Zera pontuação ao começar
         
         System.out.println("\n=== INICIANDO JOGO (Sala: " + this.codigo + ") ===");
