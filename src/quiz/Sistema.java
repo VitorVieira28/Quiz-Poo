@@ -10,12 +10,17 @@ public class Sistema {
     private static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     private static ArrayList<Jogo> listaJogos = new ArrayList<>();
     
+    //private int option;
+    
+    private static MinhaInterface tabela = new MinhaInterface();
+
+    
     // Guarda quem está logado no momento (null = ninguém)
     public static Usuario usuarioLogado = null; 
 
     // --- 1. CADASTRAR JOGADOR ---
     public static void cadastrarJogador() {
-        Scanner teclado = new Scanner(System.in, "UTF-8");
+        Scanner teclado = new Scanner(System.in);
         System.out.println("\n--- NOVO CADASTRO DE JOGADOR ---");
         
         System.out.print("Login desejado: ");
@@ -53,7 +58,7 @@ public class Sistema {
     
     // --- 2. CADASTRAR Administrador ---
     public static void cadastrarAdministrador() {
-        Scanner teclado = new Scanner(System.in, "UTF-8");
+        Scanner teclado = new Scanner(System.in);
         System.out.println("\n--- NOVO CADASTRO DE Administrador ---");
         
         System.out.print("Login desejado: ");
@@ -91,7 +96,7 @@ public class Sistema {
   
     // --- 2. FAZER LOGIN ---
     public static void fazerLogin() {
-        Scanner teclado = new Scanner(System.in, "UTF-8");
+        Scanner teclado = new Scanner(System.in);
         System.out.println("\n--- LOGIN ---");
         
         System.out.print("Login: ");
@@ -127,31 +132,41 @@ public class Sistema {
     // --- MÉTODOS DE JOGO (Deixei o esqueleto pra preenchermos depois) ---
     
     public static void criarJogo() {
+        Scanner teclado = new Scanner(System.in);
+        tabela.menuCriarJogo();
 
-        Scanner teclado = new Scanner(System.in, "UTF-8");
-        System.out.println("\n--- CRIAR NOVA SALA ---");
+        System.out.print("Defina um CÓDIGO (PIN) para a sala: ");
+        String codigo = teclado.nextLine(); 
+
+        System.out.print("Digite o tema do Quiz: ");
+        String tema = teclado.nextLine(); 
+
+        int rodadas = tabela.lerOpcaoSegura("Quantas rodadas terá o jogo? (Ex: 5): ");
+
+        int maxParticipantes = tabela.lerOpcaoSegura("Limite máximo de participantes: ");
+
+        System.out.println("\n--- CONFIGURAÇÃO DE PONTOS POR DIFICULDADE ---");
+
+        int pFacil = tabela.lerOpcaoSegura("Pontos para questões FÁCEIS: ");
+
+        int pMedio = tabela.lerOpcaoSegura("Pontos para questões MÉDIAS: ");
+
+        int pDificil = tabela.lerOpcaoSegura("Pontos para questões DIFÍCEIS: ");
         
-        // Pede para o administrador criar um código para a sala
-        System.out.print("Defina um CÓDIGO para a sala de 6 digítos (ex: 123456): ");
-        String codigo = teclado.next();
-        
-        // Define a pontuação das perguntas
-        System.out.print("Quantos PONTOS vale cada pergunta? (ex: 10): ");
-        int valor = teclado.nextInt();
-        
-        // Cria o objeto Jogo com os dados
-        Jogo novoJogo = new Jogo(codigo, valor);
-        
-        // Adiciona na lista de jogos do sistema
+        Jogo novoJogo = new Jogo(codigo, tema, rodadas, maxParticipantes);
+        novoJogo.setConfigPontuacao(pFacil, pMedio, pDificil);
+
         listaJogos.add(novoJogo);
-        
-        System.out.println("✅ Sala " + codigo + " criada com sucesso!");
-        System.out.println("Avise seus amigos para entrarem usando a Opção 4.");
+
+        System.out.println("\nSala de '" + tema + "' criada com sucesso!");
+        System.out.println("Avise seus amigos para entrarem usando o PIN: " + codigo);
     }
+    
+    
     
     public static void entrarEmJogo() {
 
-        Scanner teclado = new Scanner(System.in, "UTF-8");
+        Scanner teclado = new Scanner(System.in);
         System.out.println("\n--- ENTRAR EM UM JOGO ---");
         
         // 2. Pede o código da sala
