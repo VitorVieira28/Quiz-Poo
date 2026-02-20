@@ -2,6 +2,9 @@ package quiz;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Collections;
 
 public class Jogo {
     
@@ -10,6 +13,10 @@ public class Jogo {
     private int pFacil, pMedio, pDificil;
     private ArrayList<Pergunta> listaDePerguntas; // As perguntas dessa partida
     private int pontuacao; // Pontos do jogador atual
+    // Lista para guardar os usuários que já jogaram esta partida
+    private ArrayList<Usuario> jogadoresQueJaJogaram = new ArrayList<>();
+    private Map<Usuario, Integer> ranking = new HashMap<>();
+    private int pontosPerdidosPorPulo;
     Scanner teclado = new Scanner(System.in);
     MinhaInterface opc = new MinhaInterface();
     
@@ -84,7 +91,8 @@ public class Jogo {
         System.out.print("Digite o enunciado: ");
         String enunciado = teclado.nextLine();
         
-        System.out.print("Dificuldade (Fácil / Médio / Difícil): ");
+        System.out.print("Dificuldade:\n 1)Fácil\n 2)Médio\n 3)Difícil");
+        System.out.print("\nDigite um número para selecionar a dificuldade: ");
         String dificuldade = teclado.nextLine();
         
         String[] opcoes = new String[4]; // Vetor para as 4 alternativas
@@ -110,12 +118,60 @@ public class Jogo {
         this.pMedio = m;
         this.pDificil = d;
     }
+    // Verifica se o usuário logado já está na lista
+    public boolean jaJogou(Usuario jogadorLogado) {
+        for (Usuario u : jogadoresQueJaJogaram) {
+            // Compara pelo login para ter 100% de certeza
+            if (u.getLogin().equals(jogadorLogado.getLogin())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // Verifica se a sala já atingiu o limite de jogadores
+    public boolean isSalaCheia() {
+        // Se o tamanho da lista for maior ou igual ao limite, retorna true (está cheia)
+        return this.jogadoresQueJaJogaram.size() >= this.maxParticipantes; 
+    }
+
+    // Grava o usuário na lista depois que ele termina de jogar
+    public void registrarPartida(Usuario jogadorLogado) {
+        this.jogadoresQueJaJogaram.add(jogadorLogado);
+    }
+    public void exibirRanking() {
+        System.out.println("\n=== RANKING DA SALA ===");
+        if (ranking.isEmpty()) {
+            System.out.println("Ninguém jogou esta partida ainda.");
+            return;
+        }
+
+    // 1. Cria uma lista temporária com os dados do ranking e já ordena do maior pro menor
+        java.util.List<Map.Entry<Usuario, Integer>> listaOrdenada = new java.util.ArrayList<>(ranking.entrySet());
+        listaOrdenada.sort(Map.Entry.<Usuario, Integer>comparingByValue().reversed());
+
+        // 2. Cria o contador de posição
+        int posicao = 1;
+
+        // 3. Imprime cada jogador com a sua posição na frente
+        for (Map.Entry<Usuario, Integer> entry : listaOrdenada) {
+            Usuario u = entry.getKey();
+            int pontos = entry.getValue();
+            
+            System.out.println(posicao + " - Nome: " + u.getNome() + " | Login: " + u.getLogin() + " | Pontos: " + pontos);
+            
+            posicao++; // Aumenta a posição para o próximo jogador (1, 2, 3...)
+        }
+        
+    }
+    public void setPontosPerdidosPorPulo(int pontos) {
+        this.pontosPerdidosPorPulo = pontos;
+    }
     
     // O MOTOR DO JOGO: O loop que mostra perguntas e corrige
     public void iniciar() {
         // LINHA 110: Criamos o Scanner para ler as respostas do jogador
         Scanner teclado = new Scanner(System.in); 
-        
+        Collections.shuffle(this.listaDePerguntas);
         this.pontuacao = 0; // Zera a pontuação para a nova partida
         
         //Só coloquei tema no lugar de código
@@ -125,8 +181,15 @@ public class Jogo {
             // Usa o método mostrar() que você criou na classe Pergunta
             p.mostrar();
             
+            System.out.println("➡️ Digite [P] para PULAR a pergunta (Penalidade: -" + this.pontosPerdidosPorPulo + " pontos)");
             System.out.print("Sua resposta: ");
-            String resposta = teclado.next();
+            String resposta = teclado.next().toUpperCase();
+            if (resposta.equals("P")) {
+                this.pontuacao -= this.pontosPerdidosPorPulo;
+                System.out.println("⚠️ Você pulou a pergunta! Perdeu " + this.pontosPerdidosPorPulo + " pontos.");
+                System.out.println("Pontuação atual: " + this.pontuacao);
+                continue; 
+            }
             
             // Usa o método corrigir() que você criou na classe Pergunta
             if (p.corrigir(resposta)) {
@@ -145,10 +208,14 @@ public class Jogo {
                 System.out.println(">> +" + pontosGanhos + " pontos!");
             }
             System.out.println("---------------------------------");
+            
         }
         
         System.out.println("\nFIM DE JOGO! Você fez " + this.pontuacao + " pontos.");
-        
+        this.ranking.put(Sistema.usuarioLogado, this.pontuacao);
+        // IMPORTANTE: Substitua a palavra 'acertos' pelo nome da variável 
+    // que você usou no seu código para contar a pontuação!
+    
         
         
     }
