@@ -259,29 +259,32 @@ public class Sistema {
             usuarioLogado = null; // AQUI É O SEGREDO: Zera a variável
         }
     }
-   public static void mostrarRanking() {
-        System.out.println("\n--- RANKING ---");
-        
+ public static void mostrarRanking() {
+        System.out.println("\n--- TELA DE RANKING ---");
         
         Scanner teclado = new Scanner(System.in);
+        System.out.print("Digite o codigo do jogo: ");
         
-        System.out.print("Digite o código do jogo: ");
-        String codigoDigitado = teclado.next(); // Troquei para .next() para ficar igual ao entrarEmJogo()
+        // Usar .next() em vez de .nextLine() resolve 99% dos bugs de pular menu!
+        String codigoDigitado = teclado.next(); 
 
-        Jogo jogoEncontrado = null;
+        boolean achou = false;
+
         for (Jogo j : listaJogos) {
-            if (j.getCodigo().equals(codigoDigitado)) { 
-                jogoEncontrado = j;
+            if (j.getCodigo().equals(codigoDigitado)) {
+                achou = true;
+               System.out.println("\n✔️ Puxando os resultados da sala!");
+                
+                // Chama o ranking do jogo (independente de estar cheio ou não!)
+                j.exibirRanking(); 
                 break;
             }
         }
 
-        if (jogoEncontrado == null) {
-            System.out.println("❌ Jogo não encontrado com este código!");
-        } else {
-            
-            jogoEncontrado.exibirRanking();
+        if (!achou) {
+            System.out.println("❌ Jogo nao encontrado com o codigo: " + codigoDigitado);
         }
+        
         Sistema.pausar();
     }
    // Método utilitário para pausar a tela

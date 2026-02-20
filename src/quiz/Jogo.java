@@ -68,17 +68,44 @@ public class Jogo {
     System.out.print("Digite o enunciado da questão V/F: ");
     String enunciado = teclado.nextLine();
     
-    System.out.print("Dificuldade:\n 1)Fácil\n 2)Médio\n 3)Difícil");
-    System.out.print("\nDigite um número para selecionar a dificuldade: ");
-    String dificuldade = teclado.nextLine();
+    String dificuldade = "";
+        boolean dificuldadeValida = false;
+        
+        while (!dificuldadeValida) {
+            System.out.print("Dificuldade:\n 1)Facil\n 2)Medio\n 3)Dificil\nDigite um numero para selecionar: ");
+            
+            // Usando nextLine() para manter o padrão do seu código e não bugar a próxima pergunta!
+            dificuldade = teclado.nextLine(); 
+            
+            if (dificuldade.equals("1") || dificuldade.equals("2") || dificuldade.equals("3")) {
+                dificuldadeValida = true; 
+            } else {
+                System.out.println("❌ Opcao invalida! Por favor, digite apenas 1, 2 ou 3.\n");
+            }
+        }
     
     /*
     System.out.print("Dificuldade:\n 1)Fácil\n 2)Médio\n 3)Difícil");
     int dificuldade = (lerOpcaoSegura("Digite um número para selecionar a dificuldade: "));
     */
     
-    System.out.print("Resposta correta (V ou F): ");
-    String respostaCerta = teclado.nextLine().toUpperCase();
+    String respostaCerta = "";
+        boolean respostaValida = false;
+        
+        // O loop prende o administrador até ele digitar V ou F
+        while (!respostaValida) {
+            System.out.print("Qual a resposta correta (V/F)? ");
+            
+            // Lemos o que foi digitado e já convertemos para MAIÚSCULO na mesma linha
+            respostaCerta = teclado.nextLine().toUpperCase(); 
+            
+            // Verifica se a letra é exatamente V ou F
+            if (respostaCerta.equals("V") || respostaCerta.equals("F")) {
+                respostaValida = true; // Acertou a letra, libera a saída do loop!
+            } else {
+                System.out.println("❌ Opcao invalida! Por favor, digite apenas V ou F.\n");
+            }
+        }
     
     // Criando o objeto e adicionando na lista
     PerguntaVF nova = new PerguntaVF(enunciado, respostaCerta, dificuldade);
@@ -91,9 +118,21 @@ public class Jogo {
         System.out.print("Digite o enunciado: ");
         String enunciado = teclado.nextLine();
         
-        System.out.print("Dificuldade:\n 1)Fácil\n 2)Médio\n 3)Difícil");
-        System.out.print("\nDigite um número para selecionar a dificuldade: ");
-        String dificuldade = teclado.nextLine();
+       String dificuldade = "";
+        boolean dificuldadeValida = false;
+        
+        while (!dificuldadeValida) {
+            System.out.print("Dificuldade:\n 1)Facil\n 2)Medio\n 3)Dificil\nDigite um numero para selecionar: ");
+            
+            // Usando nextLine() para manter o padrão do seu código e não bugar a próxima pergunta!
+            dificuldade = teclado.nextLine(); 
+            
+            if (dificuldade.equals("1") || dificuldade.equals("2") || dificuldade.equals("3")) {
+                dificuldadeValida = true; 
+            } else {
+                System.out.println("❌ Opcao invalida! Por favor, digite apenas 1, 2 ou 3.\n");
+            }
+        }   
         
         String[] opcoes = new String[4]; // Vetor para as 4 alternativas
         char letra = 'A';
@@ -103,8 +142,24 @@ public class Jogo {
             letra++;
         }
         
-        System.out.print("Qual é a letra correta? (A, B, C ou D): ");
-        String respostaCerta = teclado.nextLine().toUpperCase(); // Salva sempre em maiúsculo
+        String respostaCerta = "";
+        boolean respostaValida = false;
+        
+        // O loop prende o usuário até ele digitar A, B, C ou D
+        while (!respostaValida) {
+            System.out.print("Qual e a letra correta? (A, B, C ou D): ");
+            
+            // Lemos e já convertemos para MAIÚSCULO
+            respostaCerta = teclado.nextLine().toUpperCase(); 
+            
+            // Verifica se é exatamente A, B, C ou D
+            if (respostaCerta.equals("A") || respostaCerta.equals("B") || 
+                respostaCerta.equals("C") || respostaCerta.equals("D")) {
+                respostaValida = true; // Acertou a letra, libera a saída!
+            } else {
+                System.out.println("❌ Opcao invalida! Por favor, digite apenas A, B, C ou D.\n");
+            }
+        }
         
         // Instancia a filha passando os dados coletados
         PerguntaMultiplaEscolha novaPergunta = new PerguntaMultiplaEscolha(enunciado, respostaCerta, dificuldade, opcoes);
