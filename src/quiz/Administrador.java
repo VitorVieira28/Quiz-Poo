@@ -7,12 +7,8 @@ public class Administrador extends Usuario {
         super(nome, login, senha);
     }
     
-    // --- MÉTODOS EXCLUSIVOS DO ADMIN ---
-    
-    // No futuro, podemos colocar aqui métodos como:
-    // cadastrarPergunta(), deletarUsuario(), etc.
-    // Por enquanto, deixe vazio.
-    
+   
+
     
     public void mostrarDados() {
         System.out.println("Sou um ADMINISTRADOR: " + this.getNome());

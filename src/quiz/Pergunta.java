@@ -4,16 +4,15 @@ public abstract class Pergunta {
     
     private String enunciado;
     private String respostaCorreta;
-    private String dificuldade; // Fundamental para o sistema de pontos!
+    private String dificuldade;
     
-    // CONSTRUTOR
+
     public Pergunta(String enunciado, String respostaCorreta, String dificuldade) {
         this.enunciado = enunciado;
         this.respostaCorreta = respostaCorreta;
         this.dificuldade = dificuldade;
     }
 
-    // GETTERS E SETTERS
     public String getEnunciado() { return enunciado; }
     public void setEnunciado(String enunciado) { this.enunciado = enunciado; }
 
@@ -23,7 +22,7 @@ public abstract class Pergunta {
     public String getDificuldade() { return dificuldade; }
     public void setDificuldade(String dificuldade) { this.dificuldade = dificuldade; }
     
-    // --- MÉTODOS DE LÓGICA DO JOGO ---
+    
     public boolean corrigir(String respostaUsuario) {
         if (this.respostaCorreta.equalsIgnoreCase(respostaUsuario)) {
             System.out.println("✅ ACERTOU!");
@@ -34,6 +33,6 @@ public abstract class Pergunta {
         }
     }
     
-    // Descomentei o método abstrato para obrigar as filhas a implementar
+ 
     public abstract void mostrar();
 }

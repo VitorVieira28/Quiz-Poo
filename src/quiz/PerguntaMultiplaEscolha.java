@@ -4,7 +4,7 @@ public class PerguntaMultiplaEscolha extends Pergunta {
     
     private String[] alternativas;
     
-    // CONSTRUTOR ATUALIZADO
+
     public PerguntaMultiplaEscolha(String enunciado, String respostaCorreta, String dificuldade, String[] alternativas) {
         // Envia para a mãe
         super(enunciado, respostaCorreta, dificuldade); 

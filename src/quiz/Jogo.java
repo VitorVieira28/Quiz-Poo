@@ -8,7 +8,7 @@ import java.util.Collections;
 
 public class Jogo {
     
-    private String codigo, tema;        // O código da sala (ex: "1234")
+    private String codigo, tema;        // O código da sala
     private int rodadas, maxParticipantes;
     private int pFacil, pMedio, pDificil;
     private ArrayList<Pergunta> listaDePerguntas; // As perguntas dessa partida
@@ -29,14 +29,13 @@ public class Jogo {
         this.listaDePerguntas = new ArrayList<>();
         this.pontuacao = 0;
         
-        // Assim que cria o jogo, ele já carrega as perguntas (Hardcoded)
         this.criarPerguntas();
     }
 
     public String getCodigo() {
         return codigo;
     }
-    ///////////////////////////////
+ 
     private void criarPerguntas() {
         System.out.println("\nVocê está criando um jogo de " + this.rodadas + " perguntas!");
         System.out.println("Do tema: " + this.tema);
@@ -49,7 +48,7 @@ public class Jogo {
             System.out.print("Opção: ");
             
             int num = teclado.nextInt();
-            teclado.nextLine(); // LIMPEZA DE BUFFER: Essencial para não bugar o próximo nextLine()
+            teclado.nextLine();
             
             if (num == 1) {
                 cadastrarPerguntaMultiplaEscolha(teclado);
@@ -59,7 +58,7 @@ public class Jogo {
             } 
             else {
                 System.out.println("❌ Opção inválida! Tente novamente.");
-                i--; // TRUQUE DE LÓGICA: Diminui o 'i' para o loop repetir esta rodada
+                i--;
             }
         }
     }
@@ -74,7 +73,6 @@ public class Jogo {
         while (!dificuldadeValida) {
             System.out.print("Dificuldade:\n 1)Facil\n 2)Medio\n 3)Dificil\nDigite um numero para selecionar: ");
             
-            // Usando nextLine() para manter o padrão do seu código e não bugar a próxima pergunta!
             dificuldade = teclado.nextLine(); 
             
             if (dificuldade.equals("1") || dificuldade.equals("2") || dificuldade.equals("3")) {
@@ -84,24 +82,18 @@ public class Jogo {
             }
         }
     
-    /*
-    System.out.print("Dificuldade:\n 1)Fácil\n 2)Médio\n 3)Difícil");
-    int dificuldade = (lerOpcaoSegura("Digite um número para selecionar a dificuldade: "));
-    */
     
     String respostaCerta = "";
         boolean respostaValida = false;
         
-        // O loop prende o administrador até ele digitar V ou F
         while (!respostaValida) {
             System.out.print("Qual a resposta correta (V/F)? ");
             
-            // Lemos o que foi digitado e já convertemos para MAIÚSCULO na mesma linha
             respostaCerta = teclado.nextLine().toUpperCase(); 
             
             // Verifica se a letra é exatamente V ou F
             if (respostaCerta.equals("V") || respostaCerta.equals("F")) {
-                respostaValida = true; // Acertou a letra, libera a saída do loop!
+                respostaValida = true;
             } else {
                 System.out.println("❌ Opcao invalida! Por favor, digite apenas V ou F.\n");
             }
@@ -124,7 +116,6 @@ public class Jogo {
         while (!dificuldadeValida) {
             System.out.print("Dificuldade:\n 1)Facil\n 2)Medio\n 3)Dificil\nDigite um numero para selecionar: ");
             
-            // Usando nextLine() para manter o padrão do seu código e não bugar a próxima pergunta!
             dificuldade = teclado.nextLine(); 
             
             if (dificuldade.equals("1") || dificuldade.equals("2") || dificuldade.equals("3")) {
@@ -134,7 +125,7 @@ public class Jogo {
             }
         }   
         
-        String[] opcoes = new String[4]; // Vetor para as 4 alternativas
+        String[] opcoes = new String[4];
         char letra = 'A';
         for (int i = 0; i < 4; i++) {
             System.out.print("Digite a alternativa " + letra + ": ");
@@ -145,14 +136,13 @@ public class Jogo {
         String respostaCerta = "";
         boolean respostaValida = false;
         
-        // O loop prende o usuário até ele digitar A, B, C ou D
+       
         while (!respostaValida) {
             System.out.print("Qual e a letra correta? (A, B, C ou D): ");
             
-            // Lemos e já convertemos para MAIÚSCULO
+            
             respostaCerta = teclado.nextLine().toUpperCase(); 
             
-            // Verifica se é exatamente A, B, C ou D
             if (respostaCerta.equals("A") || respostaCerta.equals("B") || 
                 respostaCerta.equals("C") || respostaCerta.equals("D")) {
                 respostaValida = true; // Acertou a letra, libera a saída!
@@ -173,17 +163,17 @@ public class Jogo {
         this.pMedio = m;
         this.pDificil = d;
     }
-    // Verifica se o usuário logado já está na lista
+    
     public boolean jaJogou(Usuario jogadorLogado) {
         for (Usuario u : jogadoresQueJaJogaram) {
-            // Compara pelo login para ter 100% de certeza
+            
             if (u.getLogin().equals(jogadorLogado.getLogin())) {
                 return true;
             }
         }
         return false;
     }
-    // Verifica se a sala já atingiu o limite de jogadores
+    
     public boolean isSalaCheia() {
         // Se o tamanho da lista for maior ou igual ao limite, retorna true (está cheia)
         return this.jogadoresQueJaJogaram.size() >= this.maxParticipantes; 
@@ -214,7 +204,7 @@ public class Jogo {
             
             System.out.println(posicao + " - Nome: " + u.getNome() + " | Login: " + u.getLogin() + " | Pontos: " + pontos);
             
-            posicao++; // Aumenta a posição para o próximo jogador (1, 2, 3...)
+            posicao++; 
         }
         
     }
@@ -222,18 +212,18 @@ public class Jogo {
         this.pontosPerdidosPorPulo = pontos;
     }
     
-    // O MOTOR DO JOGO: O loop que mostra perguntas e corrige
+    
     public void iniciar() {
-        // LINHA 110: Criamos o Scanner para ler as respostas do jogador
+       
         Scanner teclado = new Scanner(System.in); 
         Collections.shuffle(this.listaDePerguntas);
-        this.pontuacao = 0; // Zera a pontuação para a nova partida
+        this.pontuacao = 0; 
         
-        //Só coloquei tema no lugar de código
+       
         System.out.println("\n=== INICIANDO JOGO: " + this.tema + " ===");
         
         for (Pergunta p : listaDePerguntas) {
-            // Usa o método mostrar() que você criou na classe Pergunta
+            
             p.mostrar();
             
             System.out.println("➡️ Digite [P] para PULAR a pergunta (Penalidade: -" + this.pontosPerdidosPorPulo + " pontos)");
@@ -246,11 +236,11 @@ public class Jogo {
                 continue; 
             }
             
-            // Usa o método corrigir() que você criou na classe Pergunta
+            
             if (p.corrigir(resposta)) {
                 int pontosGanhos = 0;
                 
-                // Verifica a dificuldade da pergunta para saber qual ponto somar
+               
                 if (p.getDificuldade().equalsIgnoreCase("1")) {
                     pontosGanhos = this.pFacil;
                 } else if (p.getDificuldade().equalsIgnoreCase("2")) {
@@ -268,8 +258,7 @@ public class Jogo {
         
         System.out.println("\nFIM DE JOGO! Você fez " + this.pontuacao + " pontos.");
         this.ranking.put(Sistema.usuarioLogado, this.pontuacao);
-        // IMPORTANTE: Substitua a palavra 'acertos' pelo nome da variável 
-    // que você usou no seu código para contar a pontuação!
+        
     
         
         

@@ -6,10 +6,10 @@ import java.util.InputMismatchException;
 public class MinhaInterface {
 
     Scanner leitor = new Scanner(System.in);
-    // Agora usamos apenas a variável 'option' para simplificar o controle
+    
     private int option = -1;
 
-    // Getters e Setters
+    
     public int getOption() {
         return option;
     }
@@ -18,8 +18,7 @@ public class MinhaInterface {
         this.option = option;
     }
 
-    // MÉTODO REATIVADO E MELHORADO: 
-    // Agora ele recebe uma mensagem e garante que o usuário digite um número.
+    
     public int lerOpcaoSegura(String mensagem) {
         while (true) {
             try {
@@ -100,7 +99,7 @@ public class MinhaInterface {
                     Sistema.fazerLogin();
                 } else if (getOption() == 0) {
                     System.out.println("Saindo... Até mais!");
-                    // Aqui mantemos o 0 para sair do loop
+                    
                 } else if(getOption() == 4){
                     Sistema.listarUsuarios();
                 } else {
@@ -142,8 +141,7 @@ public class MinhaInterface {
                 }
             }
 
-            // MUDANÇA: Só limpamos a opção se ela não for 0, 
-            // para que a condição do 'while' consiga ler o 0 e parar o programa.
+            
             if (getOption() != 0) {
                 setOption(-1);
             }
