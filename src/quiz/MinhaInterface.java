@@ -82,6 +82,7 @@ public class MinhaInterface {
         System.out.println("(1) Criar uma conta de Jogador");
         System.out.println("(2) Criar uma conta de Administrador");
         System.out.println("(3) Fazer login");
+        System.out.println("(4) Listar Usuários Cadastrados");
         System.out.println("(0) Para sair");
         
         setOption(lerOpcaoSegura("Escolha uma opção: "));
@@ -100,6 +101,8 @@ public class MinhaInterface {
                 } else if (getOption() == 0) {
                     System.out.println("Saindo... Até mais!");
                     // Aqui mantemos o 0 para sair do loop
+                } else if(getOption() == 4){
+                    Sistema.listarUsuarios();
                 } else {
                     System.out.println("Opção inválida!");
                 }

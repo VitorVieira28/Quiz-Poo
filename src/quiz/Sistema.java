@@ -299,7 +299,7 @@ public class Sistema {
     }
     public static void inicializarDados() {
     Administrador adm1 = new Administrador("Vitor Vieira", "vitin", "123");
-    Administrador adm2 = new Administrador("Pedro Henrique", "PedroH", "123");
+    Administrador adm2 = new Administrador("Pedro Rei Delas", "PedroH", "123");
     Jogador jog1 = new Jogador("Guiomar Netto", "netto", "123");
     Jogador jog2 = new Jogador("Francisco", "dylas", "123");
 
@@ -307,7 +307,6 @@ public class Sistema {
     listaUsuarios.add(adm2);
     listaUsuarios.add(jog1);
     listaUsuarios.add(jog2);
-    
-    // Linha de print removida para não aparecer nada no console ao iniciar
+   
 }
 }
