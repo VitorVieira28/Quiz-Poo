@@ -135,8 +135,29 @@ public class Sistema {
         Scanner teclado = new Scanner(System.in);
         tabela.menuCriarJogo();
 
-        System.out.print("Defina um CÓDIGO (PIN) para a sala: ");
-        String codigo = teclado.nextLine(); 
+        String codigo = "";
+        
+        // Loop que "prende" o usuário até o PIN ser único
+        while (true) {
+            System.out.print("Defina um CÓDIGO (PIN) para a sala: ");
+            codigo = teclado.nextLine();
+            
+            boolean jaExiste = false;
+            
+            // Verifica se o código já está em uso
+            for (Jogo j : listaJogos) {
+                if (j.getCodigo().equals(codigo)) {
+                    jaExiste = true;
+                    break; // Se achou um igual, não precisa olhar o resto da lista
+                }
+            }
+            
+            if (jaExiste) {
+                System.out.println("❌ Erro: Esse código já está em uso por outra sala! Tente outro.");
+            } else {
+                break; // Se NÃO existe, sai do loop while e continua a criação
+            }
+        }
 
         System.out.print("Digite o tema do Quiz: ");
         String tema = teclado.nextLine(); 
@@ -203,5 +224,8 @@ public class Sistema {
             System.out.println("\n👋 Tchau, " + usuarioLogado.getNome() + "! Volte sempre.");
             usuarioLogado = null; // AQUI É O SEGREDO: Zera a variável
         }
+    }
+    public static void mostrarRanking(){
+        System.out.println("\n--- RANKING ---");
     }
 }

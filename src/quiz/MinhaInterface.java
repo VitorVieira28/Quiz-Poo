@@ -126,7 +126,7 @@ public class MinhaInterface {
                 if (getOption() == 1) {
                     Sistema.entrarEmJogo();
                 } else if (getOption() == 2) {
-                    System.out.println("--- RANKING ---");
+                    Sistema.mostrarRanking();
                 } else if (getOption() == 3) {
                     Sistema.listarUsuarios();
                 } else if (getOption() == 4) {

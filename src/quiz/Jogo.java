@@ -61,8 +61,14 @@ public class Jogo {
     System.out.print("Digite o enunciado da questão V/F: ");
     String enunciado = teclado.nextLine();
     
-    System.out.print("Dificuldade (Fácil / Médio / Difícil): ");
+    System.out.print("Dificuldade:\n 1)Fácil\n 2)Médio\n 3)Difícil");
+    System.out.print("\nDigite um número para selecionar a dificuldade: ");
     String dificuldade = teclado.nextLine();
+    
+    /*
+    System.out.print("Dificuldade:\n 1)Fácil\n 2)Médio\n 3)Difícil");
+    int dificuldade = (lerOpcaoSegura("Digite um número para selecionar a dificuldade: "));
+    */
     
     System.out.print("Resposta correta (V ou F): ");
     String respostaCerta = teclado.nextLine().toUpperCase();
@@ -112,7 +118,8 @@ public class Jogo {
         
         this.pontuacao = 0; // Zera a pontuação para a nova partida
         
-        System.out.println("\n=== INICIANDO JOGO (Sala: " + this.codigo + ") ===");
+        //Só coloquei tema no lugar de código
+        System.out.println("\n=== INICIANDO JOGO: " + this.tema + " ===");
         
         for (Pergunta p : listaDePerguntas) {
             // Usa o método mostrar() que você criou na classe Pergunta
@@ -126,9 +133,9 @@ public class Jogo {
                 int pontosGanhos = 0;
                 
                 // Verifica a dificuldade da pergunta para saber qual ponto somar
-                if (p.getDificuldade().equalsIgnoreCase("Fácil")) {
+                if (p.getDificuldade().equalsIgnoreCase("1")) {
                     pontosGanhos = this.pFacil;
-                } else if (p.getDificuldade().equalsIgnoreCase("Médio")) {
+                } else if (p.getDificuldade().equalsIgnoreCase("2")) {
                     pontosGanhos = this.pMedio;
                 } else {
                     pontosGanhos = this.pDificil;
